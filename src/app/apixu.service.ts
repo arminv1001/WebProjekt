@@ -14,4 +14,11 @@ export class ApixuService {
       'http://api.weatherstack.com/current?access_key=51e53a0308ac192abef17f919a7b606d&query=' + location
     );
   }
+
+  getWeatherForecast(location: string): Observable<any> {
+    console.log(location);
+    return this.http.get(
+      'http://api.weatherstack.com/current?access_key=51e53a0308ac192abef17f919a7b606d&query=' + location + '&forecast_days=1&hourly=1'
+    );
+  }
 }
