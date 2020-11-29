@@ -1,0 +1,37 @@
+
+.card-wrapper
+  display: grid
+  grid-template-columns: repeat(4, 1fr)
+  gap: 5%
+
+.mat-card-header
+  justify-content: center
+
+.card
+  text-align: center
+  float: left
+  display: block
+  width: 93%
+  margin: 1em
+  mat-card-title
+    max-width: 100%
+    margin-left: 0px
+    text-align: center
+
+
+.mat-spinner
+  position: fixed
+  top: 50%
+  left: 50%
+
+@media (max-width: 1250px)
+  .card-wrapper
+    grid-template-columns: repeat(3, 1fr)
+
+@media (max-width: 750px)
+  .card-wrapper
+    grid-template-columns: repeat(2, 1fr)
+
+@media (max-width: 450px)
+  .card-wrapper
+    grid-template-columns: repeat(1, 1fr)

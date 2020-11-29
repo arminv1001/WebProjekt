@@ -1,0 +1,16 @@
+
+<mat-toolbar>
+<mat-toolbar-row>
+  <div class="nav">
+      <div class="nav-titel">
+        <span>Wetter</span>
+      </div>
+      <div class="nav-button">
+        <a mat-button [routerLink]="['/home']"> Home </a>
+        <a mat-button [routerLink]="['/weather']"> Wetter </a>
+        <a mat-buttom [routerLink]="['/ueberUns']"> Über uns</a>
+      </div>
+  </div>
+</mat-toolbar-row>
+</mat-toolbar>
+<router-outlet></router-outlet>
