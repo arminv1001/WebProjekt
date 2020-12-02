@@ -5,6 +5,7 @@
         <mat-card-header>
           <mat-card-title >{{weatherData?.location.name}}</mat-card-title>
         </mat-card-header>
+        <img mat-card-image src="{{weatherData?.current.weather_icons[0]}}">
         <mat-card-content>
           <p>
             Zustand: {{weatherData?.current.weather_descriptions}} <br>
