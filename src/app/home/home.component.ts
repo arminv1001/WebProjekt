@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {ApixuService} from '../apixu.service';
+import {ApiService} from '../api.service';
 import {forkJoin, Observable} from 'rxjs';
-
 
 @Component({
   selector: 'app-home',
@@ -11,40 +10,40 @@ import {forkJoin, Observable} from 'rxjs';
 export class HomeComponent implements OnInit {
   public sorted: any;
 
-  constructor(private apixuService: ApixuService) {
+  constructor(private apixuService: ApiService) {
   }
 
   // Array mit den Locatiosn für die Startseite
-  public weatherDataL: string[] = ['New York', 'Paris', 'Berlin', 'Teheran', 'Shanghai', 'Tokio', 'New-Dehli', 'Mexico-City', 'Seoul'];
+  public weatherDataL: string[] = ['New York', 'Paris', 'Berlin', 'Teheran', 'Shanghai', 'Tokio', 'Seoul', 'Dubai', 'Kairo', 'Mumbai', 'Los Angeles', 'Lima'];
+  // Array mit den Results
   public weatherDataG: any[] = [];
-
+  // Array mit den Results als Observable
   public weatherDataG$: Observable<any>[] = [];
 
-  // public daten = this.weather.sendToAPIXUAndGet(this.weatherDataL[0]);
-
   ngOnInit(): void {
+    // For each durch das Location Array um die Daten anzufragen
     this.weatherDataL.forEach((fWeatherData: string, index: number) => {
-      this.sendToAPIXUAndGet(this.weatherDataL[index], index);
+      this.sendToAPIAndGet(this.weatherDataL[index], index);
     });
 
-    // wait for all observables in array to finish (have a value != unknown)
+    // Auf die Observables warten, damit keine leeres Array sortiert wird
     forkJoin(...this.weatherDataG$)
       .subscribe((data: any) => {
         this.sortByTemperature(data);
       });
   }
-
-  sendToAPIXUAndGet(location: string, index: number): void {
+  // Fragt über den Service mit der Funktion getWeather die API an
+  sendToAPIAndGet(location: string, index: number): void {
     const obs = this.apixuService.getWeather(location);
     this.weatherDataG$[index] = obs;
   }
-
+  // Sortiert nach der Temperatur
   private sortByTemperature(data: any): void {
     const sorted = data.sort((loca1: any, loca2: any) => {
-      if (loca1.current.temperature > loca2.current.temperature) {
+      if (loca1.main.temp > loca2.main.temp) {
         return -1;
       }
-      if (loca1.current.temperature < loca2.current.temperature) {
+      if (loca1.main.temp < loca2.main.temp) {
         return 1;
       }
       return 0;

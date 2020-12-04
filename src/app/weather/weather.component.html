@@ -1,38 +1,51 @@
 <div class="completDiv">
-  <div class="pageObjects">
-    <div class="col-md-6">
-      <h3 class="text-center my-4">Search for Weather:</h3>
-      <form [formGroup]="weatherSearchForm" (ngSubmit)="sendToAPIXU(weatherSearchForm.value)" >
-        <div class="form-group">
-          <input
-            class="form-control"
-            type="text"
-            id="weatherLocation"
-            aria-describedby="weatherLocation"
-            placeholder="Gib deinen Standort ein"
-            formControlName="location" />
-        </div>
-        <div class="text-center">
-          <button type="submit" class="btn btn-success btn-md">
-            Bestätigen
-          </button>
-        </div>
-      </form>
-    </div>
-    <ng-container *ngIf="this.weatherData != undefined">
-      <div class="col-md-6">
-        <h3 class="text-center my-4">Weather Details:</h3>
-        <p class="text-center">
-          Current weather conditions: {{this.weatherData?.current.weather_descriptions}}
-        </p>
-        <p class="text-center">
-          Temperature in Degrees Celsius: {{this.weatherData?.current.temperature}}
-        </p>
-        <p class="text-center">
-          Location Searched: {{this.weatherData?.location.name}}
-          {{this.weatherData?.location.country}}
-        </p>
+  <div class="colum">
+    <h1 class="text-center">Weather.com</h1>
+    <form [formGroup]="weatherSearchForm" (ngSubmit)="sendToAPI(weatherSearchForm.value)" >
+      <div class="form-group">
+        <input
+          class="typin"
+          type="text"
+          id="weatherLocation"
+          aria-describedby="weatherLocation"
+          placeholder="Typ in your location"
+          formControlName="location" />
       </div>
-    </ng-container>
+      <div class="center">
+        <button mat-raised-button color="primary" type="submit" class="submitButton">
+          Submit
+        </button>
+      </div>
+    </form>
   </div>
+  <ng-container *ngIf="weatherData != undefined">
+    <mat-card class="card_current">
+      <div class="colum">
+        <h2 class="mainCardTitle">{{weatherData?.name}}</h2>
+        <h2 class="mainCard">{{((weatherData?.main.temp)-273.15).toFixed(0)}} °C</h2>
+        <img class="weatherToday" src="http://openweathermap.org/img/wn/{{weatherData?.weather[0].icon }}@2x.png">
+        <h3 class="text-center">{{weatherData?.weather[0].description}}</h3>
+      </div>
+    </mat-card>
+  </ng-container>
+    <div class="card-wrapper">
+      <ng-container *ngIf="weatherDataDaily != undefined;">
+        <ng-container *ngFor="let dayCounter of [1,2,3,4,5]">
+          <mat-card class="card">
+            <mat-card-header>
+              <mat-card-title>{{this.convertUnixToDate(weatherDataDaily[dayCounter]?.dt)}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <img class="mat-card-images" src="http://openweathermap.org/img/wn/{{weatherDataDaily[dayCounter]?.weather[0].icon }}@2x.png">
+              <h2>{{((weatherDataDaily[dayCounter]?.temp.max)-273.15).toFixed(0)}} / {{((weatherDataDaily[dayCounter]?.temp.min)-273.15).toFixed(0)}} °C</h2>
+              <p>
+                {{weatherDataDaily[dayCounter].weather[0].description}}
+              </p>
+            </mat-card-content>
+          </mat-card>
+        </ng-container>
+      </ng-container>
+    </div>
 </div>
+
+

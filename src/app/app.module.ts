@@ -11,7 +11,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
 import { HttpClientModule } from '@angular/common/http';
-import { ApixuService } from './apixu.service';
+import { ApiService } from './api.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { HomeComponent } from './home/home.component';
@@ -39,7 +39,7 @@ import { SnackbarfalselocationComponent } from './snackbarfalselocation/snackbar
     MatButtonModule,
     AppRoutingModule,
   ],
-  providers: [ApixuService],
+  providers: [ApiService],
   bootstrap: [AppComponent]
 })
 

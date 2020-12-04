@@ -1,21 +1,20 @@
 <div class="card-wrapper">
   <ng-container *ngIf="sorted != undefined; else pending">
     <ng-container *ngFor="let weatherData of sorted">
-      <mat-card class="card" [style.backgroundColor]="'hsl(' + (30 + 240 * (30 - weatherData?.current.temperature) / 60) + ', 70%, 50%'">
-        <mat-card-header>
-          <mat-card-title >{{weatherData?.location.name}}</mat-card-title>
-        </mat-card-header>
-        <img mat-card-image src="{{weatherData?.current.weather_icons[0]}}">
-        <mat-card-content>
-          <p>
-            Zustand: {{weatherData?.current.weather_descriptions}} <br>
-            Temperatur: {{weatherData?.current.temperature}} °C <br>
-            Land: {{weatherData?.location.country}}
-          </p>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button (click)="goToFlight(weatherData?.location.name)">FLUG BUCHEN</button>
-        </mat-card-actions>
+      <mat-card class="card"
+                [style.backgroundColor]="'hsl(' + (30 + 240 * (30 - (((this.weatherData?.main.temp)-273.15))) / 60) + ', 70%, 50%'">
+          <mat-card-header>
+            <mat-card-title>{{weatherData?.name}}</mat-card-title>
+          </mat-card-header>
+          <img mat-card-image src="http://openweathermap.org/img/wn/{{weatherData?.weather[0].icon }}@2x.png">
+          <h2>{{((this.weatherData?.main.temp) - 273.15).toFixed(0)}} °C </h2>
+          <mat-card-content>
+            <h3>{{weatherData?.weather[0].description}}</h3>
+            <h4>{{weatherData?.sys.country}}</h4>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button (click)="goToFlight(weatherData?.name)">BOOK FLIGHT</button>
+          </mat-card-actions>
       </mat-card>
     </ng-container>
   </ng-container>
@@ -26,3 +25,5 @@
     <mat-spinner></mat-spinner>
   </div>
 </ng-template>
+
+
