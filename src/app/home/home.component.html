@@ -1,25 +1,33 @@
 <div class="card-wrapper">
+  <!--Während auf die Daten der API gewartet wird, erscheint ein Spinner siehe unten (#pending) -->
   <ng-container *ngIf="sorted != undefined; else pending">
+    <!-- For each durch sorted, indem die Daten für die jeweiligen Locations liegt -->
     <ng-container *ngFor="let weatherData of sorted">
+      <!-- Das style.backgroundColor... färbt die Karte passend zur Temperatur ein -->
+      <!-- mat-card stammt aus den Angular Materials -->
       <mat-card class="card"
                 [style.backgroundColor]="'hsl(' + (30 + 240 * (30 - (((this.weatherData?.main.temp)-273.15))) / 60) + ', 70%, 50%'">
-          <mat-card-header>
-            <mat-card-title>{{weatherData?.name}}</mat-card-title>
-          </mat-card-header>
-          <img mat-card-image src="http://openweathermap.org/img/wn/{{weatherData?.weather[0].icon }}@2x.png">
-          <h2>{{((this.weatherData?.main.temp) - 273.15).toFixed(0)}} °C </h2>
-          <mat-card-content>
-            <h3>{{weatherData?.weather[0].description}}</h3>
-            <h4>{{weatherData?.sys.country}}</h4>
-          </mat-card-content>
-          <mat-card-actions>
-            <button mat-button (click)="goToFlight(weatherData?.name)">BOOK FLIGHT</button>
-          </mat-card-actions>
+        <mat-card-header>
+          <mat-card-title>{{weatherData?.name}}</mat-card-title>
+        </mat-card-header>
+          <!-- Icon Name wird aus dem JSON gelesen und muss dann expliziert geholt werden -->
+          <img mat-card-image src="http://openweathermap.org/img/wn/{{weatherData?.weather[0].icon }}@2x.png" alt="Weather situation">
+        <!-- Temperatur wird umgewandelt in Celsius (von Kelvin) -->
+        <h2>{{((this.weatherData?.main.temp) - 273.15).toFixed(0)}} °C </h2>
+        <mat-card-content>
+          <h3>{{weatherData?.weather[0].description}}</h3>
+          <h4>{{weatherData?.sys.country}}</h4>
+        </mat-card-content>
+        <mat-card-actions>
+          <!-- Weiterleitung nach https://google.de/search?q=stuttgart+nach+LOCATION -->
+          <button mat-button (click)="goToFlight(weatherData?.name)">BOOK FLIGHT</button>
+        </mat-card-actions>
       </mat-card>
     </ng-container>
   </ng-container>
 </div>
 
+<!-- Spinner bis die Daten erhalten und sortiert wurden -->
 <ng-template #pending>
   <div class="spinner">
     <mat-spinner></mat-spinner>

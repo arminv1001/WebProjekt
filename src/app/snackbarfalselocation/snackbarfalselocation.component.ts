@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./snackbarfalselocation.component.sass']
 })
 export class SnackbarfalselocationComponent implements OnInit {
-
+  // Location Popup auf der /weather - Seite
   constructor() { }
 
   ngOnInit(): void {

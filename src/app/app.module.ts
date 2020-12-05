@@ -18,13 +18,13 @@ import { HomeComponent } from './home/home.component';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { SnackbarfalselocationComponent } from './snackbarfalselocation/snackbarfalselocation.component';
 
-
+// Hier befinden sich alle Imports und Components
 @NgModule({
   declarations: [
     AppComponent,
     WeatherComponent,
     HomeComponent,
-    SnackbarfalselocationComponent
+    SnackbarfalselocationComponent,
   ],
   imports: [
     BrowserModule,

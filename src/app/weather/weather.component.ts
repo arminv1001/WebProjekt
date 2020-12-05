@@ -3,15 +3,17 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {ApiService} from '../api.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {SnackbarfalselocationComponent} from '../snackbarfalselocation/snackbarfalselocation.component';
-import {forkJoin} from 'rxjs';
-import {map} from 'rxjs/operators';
 
+// Weather - Seite
 @Component({
   selector: 'app-weather',
   templateUrl: './weather.component.html',
   styleUrls: ['./weather.component.sass']
 })
+
 export class WeatherComponent implements OnInit {
+
+  // Inhalt des Eingabefeldes, in welche die Location eingegeben werden soll
   public weatherSearchForm: FormGroup = this.formBuilder.group({
     location: ['']
   });
@@ -19,61 +21,69 @@ export class WeatherComponent implements OnInit {
   public weatherData: any;
   // Forecastdaten als Observable
   public weatherDataForecast$: any;
-  // Forecastdaten gefilter nur nach den daily Daten
+  // Forecastdaten daily
   public weatherDataDaily: any;
 
-
+  // formBuilder -> Eingabefeld Inhalt (Location Eingabe)
+  // apiService -> API
+  // snackbar -> Popup falls Location nicht gefunden wurden bzw. die Eingabe falsch war
   constructor(private formBuilder: FormBuilder,
-              private apixuService: ApiService,
+              private apiService: ApiService,
               private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
-
   }
-  // Wird geöffnet, wenn die Location eingabe ungültig war
+
+  // Wird geöffnet, wenn die Location Eingabe ungültig war (Popup)
   openSnackBar(): void {
     // Anzeige Zeit der Snackbar
-    console.log('Snackbar');
     const displayTime = 5;
     // Weiterleitung an das entsprechende Component
     this.snackBar.openFromComponent(SnackbarfalselocationComponent, {
       duration: displayTime * 1000,
     });
   }
-   // Sendet eine Anfrage an die API, um daraus die Koordinaten des Standortes herauszufinden.
-   // Die zweite Anfrage enthält die Forecast-Daten
-   sendToAPI(formValues: any): void {
-    // Anfrage für lat und lon
-    this.apixuService.getWeather(formValues.location)
+
+  // Als erstes wird  eine Anfrage an die API gesendet,
+  // um die aktuellen Daten zu erlang und daraus die Koordinaten der gewünschten Stadt herauszufinden.
+  // Die zweite Anfrage enthält die Forecast-Daten und kann ausschließlich nur mit den Koordinaten der Stadt erlangt werden
+  sendToAPI(formValues: any): void {
+    // Anfrage für das aktuelle Wetter um lat und lon zu erhalten
+    this.apiService.getWeather(formValues.location)
       .subscribe((data: any) => {
-        console.log(data);
-        if (data){
+        if (data) {
           this.weatherData = data;
-          // Forecast Daten
-          this.apixuService.getWeatherForecast(data.coord).subscribe((dataForecast) => {
-            console.log(dataForecast);
+          // Forecast Daten anfragen
+          this.apiService.getWeatherForecast(data.coord).subscribe((dataForecast) => {
             if (dataForecast) {
+              // Aus dem JSON wird nur das Array mit den Daily Forecast Daten übernommen
               this.weatherDataDaily = dataForecast.daily;
+              // Snackbar schließen, falls es noch offen sein sollte
               this.snackBar.dismiss();
-            }}, (err) => {
-              console.log(err);
-              this.weatherDataForecast$ = undefined;
-              this.weatherDataDaily = undefined;
-              this.weatherData = undefined;
-              this.openSnackBar();
-            });
-          }}, (error) => {
-            console.log('FEHLER');
+            }
+          }, (err) => {
+            // Fehler
+            console.log(err);
             this.weatherDataForecast$ = undefined;
             this.weatherDataDaily = undefined;
             this.weatherData = undefined;
+            // Snackbar öffnen
             this.openSnackBar();
+          });
+        }
+      }, (error) => {
+        // Falsche Eingabe
+        this.weatherDataForecast$ = undefined;
+        this.weatherDataDaily = undefined;
+        this.weatherData = undefined;
+        // Snackabr öffnen - da Location nicht gefunden wurde
+        this.openSnackBar();
       });
-
   }
-  // UNIX Daten werden in Date Format gebracht für die Anzeige
-  convertUnixToDate(unixTime: number): string{
+
+  // UNIX Daten werden in ein Date Format gebracht für die Anzeige
+  convertUnixToDate(unixTime: number): string {
     const date = new Date(unixTime * 1000);
     return date.toLocaleDateString('de');
   }
