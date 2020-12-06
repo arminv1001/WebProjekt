@@ -10,13 +10,13 @@ import {forkJoin, Observable} from 'rxjs';
 })
 
 export class HomeComponent implements OnInit {
-  // In sorted befinden sich die erhaltenen Daten für die einzelnen Locations sortiert nach der Temperatur
+  // In sorted befinden sich die erhaltenen Daten für die einzelnen Locations, sortiert nach der Temperatur
   public sorted: any;
   // apiService - "Verbindung" zur Klasse api.service.ts
   constructor(private apiService: ApiService) {
   }
 
-  // Array mit den Locatiosn für die Startseite
+  // Array mit den Locations für die Startseite
   public weatherDataL: string[] = ['New York', 'Paris', 'Berlin', 'Teheran', 'Shanghai', 'Tokio', 'Seoul', 'Dubai', 'Kairo', 'Mumbai', 'Los Angeles', 'Lima'];
   // Array mit den Results
   public weatherDataG: any[] = [];
@@ -38,15 +38,17 @@ export class HomeComponent implements OnInit {
 
   // Fragt über den Service api.service.ts mit der Funktion getWeather die API an
   // und speichert das zurückgelieferte Observable in weatherData$
+  // index -> wird benötigt, damit die Daten in der gleichen Rheinfolge im Array liegen
+  // location -> Location
   sendToAPIAndGet(location: string, index: number): void {
     const obs = this.apiService.getWeather(location);
     this.weatherDataG$[index] = obs;
   }
 
   // Sortiert nach der Temperatur (von groß nach klein)
-  // Übergeben wird hier ein Array mit den Daten für die jeweiligen Locations, welche auch schon subscribe wurden
+  // Übergeben wird hier ein Array mit den Daten für die jeweiligen Locations, welche  schon "subscribe" wurden
   private sortByTemperature(data: any): void {
-    // Die sort() Funktion muss vorher angepasst werden an unseren Use-Case
+    // Die sort() Funktion muss vorher "angepasst" werden an unseren Use-Case
     const sorted = data.sort((loca1: any, loca2: any) => {
       if (loca1.main.temp > loca2.main.temp) {
         return -1;
@@ -61,7 +63,7 @@ export class HomeComponent implements OnInit {
   }
 
   // Weiterleitung, wenn der Button 'Book flight' betätigt wurde
-  // Übergabe der location, auf die geklickt wurde
+  // Übergabe der location, auf der geklickt wurde
   public goToFlight(locationSend: string): void {
     window.location.href = 'https://google.de/search?q=stuttgart+nach+' + locationSend;
   }
