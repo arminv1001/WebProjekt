@@ -87,6 +87,11 @@ export class WeatherComponent implements OnInit {
     const date = new Date(unixTime * 1000);
     return date.toLocaleDateString('de');
   }
+
+  // Temperatur runden auf ganz Zahl
+  public roundit(numbertoRound: number): number {
+    return Math.round(numbertoRound);
+  }
 }
 
 

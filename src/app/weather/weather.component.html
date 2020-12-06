@@ -25,7 +25,7 @@
     <mat-card class="card_current">
       <div class="colum center">
         <h2 class="mainCardTitle">{{weatherData?.name}}</h2>
-        <h2 class="mainCard">{{((weatherData?.main.temp) - 273.15).toFixed(1)}} °C</h2>
+        <h2 class="mainCard">{{roundit((weatherData?.main.temp) - 273.15)}} °C</h2>
         <img class="weatherToday" src="http://openweathermap.org/img/wn/{{weatherData?.weather[0].icon }}@2x.png">
         <h3>{{weatherData?.weather[0].description}}</h3>
       </div>
@@ -45,8 +45,8 @@
           <mat-card-content>
             <img class="mat-card-images"
                  src="http://openweathermap.org/img/wn/{{weatherDataDaily[dayCounter]?.weather[0].icon }}@2x.png">
-            <h2>{{((weatherDataDaily[dayCounter]?.temp.max) - 273.15).toFixed(1)}}
-              / {{((weatherDataDaily[dayCounter]?.temp.min) - 273.15).toFixed(1)}} °C</h2>
+            <h2>{{roundit((weatherDataDaily[dayCounter]?.temp.max) - 273.15)}}
+              / {{roundit((weatherDataDaily[dayCounter]?.temp.min) - 273.15)}} °C</h2>
             <p>
               {{weatherDataDaily[dayCounter].weather[0].description}}
             </p>

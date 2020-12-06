@@ -13,7 +13,7 @@
           <!-- Icon Name wird aus dem JSON gelesen und muss dann expliziert geholt werden -->
           <img mat-card-image src="http://openweathermap.org/img/wn/{{weatherData?.weather[0].icon }}@2x.png" alt="Weather situation">
         <!-- Temperatur wird umgewandelt in Celsius (von Kelvin) -->
-        <h2>{{((this.weatherData?.main.temp) - 273.15).toFixed(1)}} °C </h2>
+        <h2>{{roundit((this.weatherData?.main.temp) - 273.15)}} °C</h2>
         <mat-card-content>
           <h3>{{weatherData?.weather[0].description}}</h3>
           <h4>{{weatherData?.sys.country}}</h4>

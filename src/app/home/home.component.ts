@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ApiService} from '../api.service';
 import {forkJoin, Observable} from 'rxjs';
-
 // Home-Seite
 @Component({
   selector: 'app-home',
@@ -66,5 +65,9 @@ export class HomeComponent implements OnInit {
   // Übergabe der location, auf der geklickt wurde
   public goToFlight(locationSend: string): void {
     window.location.href = 'https://google.de/search?q=stuttgart+nach+' + locationSend;
+  }
+  // Temperatur runden auf ganz Zahl
+  public roundit(numbertoRound: number): number {
+    return Math.round(numbertoRound);
   }
 }
