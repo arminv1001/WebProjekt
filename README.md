@@ -27,14 +27,14 @@ sudo npm install -g @angular/cli
 2.	Git Clone
 Im Folgenden wird Git vorausgesetzt. Falls Sie nicht Git besitzen laden Sie sich mit 
 ```
-		brew install git
+brew install git
 ```
 herunter. Falls kein Homebrew vorhanden, dann folgen Sie den Anweisungen auf der Seite:
 https://www.atlassian.com/de/git/tutorials/install-git
 
 Nun um das Projekt zu Clonen geben Sie folgende Zeile in Ihrem Terminal ein:
 ```
-		git clone https://github.com/arminv1001/WebProjekt
+git clone https://github.com/arminv1001/WebProjekt
 ```
 
 3.	Rein navigieren
@@ -48,11 +48,11 @@ ng serve
 ```
 Falls es zu dem Problemen kommen sollte, dass er den ng Befehl nicht kennt, dann kann das Updaten von Homebrew mit:
 ```
-			brew upgrade 
+brew upgrade 
 ```
 oder folgender Befehl helfen:
 ```
-			npm install -g npm@next
+npm install -g npm@next
 ```
 Hilfreiche Links:
 https://angular.io/guide/setup-local	
